@@ -9,10 +9,6 @@ The app comes with three counters that keep track of the number of characters yo
 
 Overall, this app offers a fun and interactive experience for Star Wars enthusiasts, with a clean and user-friendly interface. 
 
-You can try this app on your mobile using qr-code below, but you need to have an account on <link>https://expo.dev/</link>
-
-<img src=https://user-images.githubusercontent.com/116656921/232048965-b83c25ab-55f8-4421-a897-5c86ba9959ae.jpg width="200" height="200">
-
 
 # What have been used
 <ul>
