@@ -27,7 +27,9 @@ Overall, this app offers a fun and interactive experience for Star Wars enthusia
 This will start a development server for you.
 
 ```npx create-expo-app AwesomeProject```
+
 ```cd AwesomeProject```
+
 ```npx expo start```
 
 <h3>Running your React Native application</h3>
