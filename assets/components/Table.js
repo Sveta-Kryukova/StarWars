@@ -2,9 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, useWindowDimensions, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Dimensions } from 'react-native';
-import { useFonts } from 'expo-font';
-import axios from 'axios';
 import { Pagination } from './Pagination'
+import { TableHeader } from './TableHeader';
 
 export const Table = (props) => {
   const { 
@@ -17,8 +16,6 @@ export const Table = (props) => {
     navigation
   } = props;
 
-  const [homeworld, setHomeworld] = useState('');
-  const [species, setSpecies] = useState('');
   const [sortOrder, setSortOrder] = useState(null);
   const [homeworldData, setHomeworldData] = useState({});
   const [speciesData, setSpeciesData] = useState({});
@@ -76,7 +73,7 @@ export const Table = (props) => {
         case 'male':
           return screenWidth > 600 ? 'male' : 'm...';
         case 'n/a':
-          return screenWidth > 600 ? 'none' : 'no...';
+          return screenWidth > 600 ? 'none' : 'n/a';
         default:
           return gender.slice(0, 2) + '...';
       }
@@ -148,26 +145,13 @@ export const Table = (props) => {
     <>
       <ScrollView horizontal={isMobile} style={styles.scrollView}>
         <View style={styles.container}>
-          <View style={styles.row}>
-            <Icon 
-              name="heart" 
-              size={20} 
-              color="black" 
-              style={{ paddingRight: '20%' }} />
-             
-            <TouchableOpacity onPress={handleNameClick} style={{ flex: 1 }}>
-              <Text style={[styles.heading, { width: 200, flex: 2 }]}>Name</Text>
-            </TouchableOpacity>
-            <Text style={styles.divider}>&#124;</Text>
-            <Text style={[styles.heading, {width: 50}]}>{birthYearColumn}</Text>
-            <Text style={styles.divider}>&#124;</Text>
-            <Text style={[styles.heading, {width: 50}]}>{genderColumn}</Text>
-            <Text style={styles.divider}>&#124;</Text>
-            <Text style={[styles.heading, {width: 50}]}>{homeWorldColumn}</Text>
-            <Text style={styles.divider}>&#124;</Text>
-            <Text style={styles.heading}>{speciesColumn}</Text>
-            <Text style={styles.divider}>&#124;</Text>
-          </View>
+        <TableHeader
+            handleNameClick={handleNameClick}
+            birthYearColumn={birthYearColumn}
+            genderColumn={genderColumn}
+            homeWorldColumn={homeWorldColumn}
+            speciesColumn={speciesColumn}
+          />
             {characters.length ? (
               sortedCharacters.map((character) => (
                 <View key={character.url} style={styles.row}>
@@ -175,20 +159,20 @@ export const Table = (props) => {
                     name={likeStatus[character.url] ? 'heart' : 'heart-o'}
                     size={20}
                     color={likeStatus[character.url] ? 'red' : '#f00'}
-                    style={{ paddingRight: '20%' }}
+                    style={{ marginRight: '10%' }}
                     onPress={() => handlePress(character)}
                   />
-                  <Text style={[styles.cell, { width: 200 }]}>
+                  <Text style={[styles.cell, { width: '40%' }]}>
                     <TouchableOpacity onPress={() => navigation.navigate('DetailedCharacterScreen', { url: character.url })}>
                       <Text>{character.name}</Text>
                     </TouchableOpacity>
                   </Text>
-                  <Text style={[styles.cell, {width: 50}]}>{getBirthYearAbbreviation(character.birth_year)}</Text>
-                  <Text style={[styles.cell, {width: 50, overflow: 'hidden'}]}>{getGenderAbbreviation(character.gender)}</Text>
-                  <Text style={[styles.cell, { width: 50, overflow: 'hidden' }]} numberOfLines={1}>
+                  <Text style={[styles.cell, {width: '10%'}]}>{getBirthYearAbbreviation(character.birth_year)}</Text>
+                  <Text style={[styles.cell, {width: '10%', overflow: 'hidden'}]}>{getGenderAbbreviation(character.gender)}</Text>
+                  <Text style={[styles.cell, { width: '10%', overflow: 'hidden' }]} numberOfLines={1}>
                   {homeworldData[character.homeworld]}
                   </Text>
-                  <Text style={[styles.cell, { width: 50, overflow: 'hidden' }]} numberOfLines={1}>{speciesData[character.species]}</Text>
+                  <Text style={[styles.cell, { width: '10%', overflow: 'hidden' }]} numberOfLines={1}>{speciesData[character.species]}</Text>
                 </View>
               ))
             ) : (
@@ -211,32 +195,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   container: {
-    flex: 1,
     backgroundColor: '#fff',
   },
   row: {
-    width: '120%',
+    flex: 1,
     height: 47,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 10,
-    borderColor: '#ccc',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  heading: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginLeft: 8,
-    paddingHorizontal: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
   },
   cell: {
-    fontSize: 16,
-    marginLeft: 10,
-    fontFamily: 'Roboto',
-  },
-  divider: {
-    fontSize: 24,
-    color: '#ccc',
+    textAlign: 'left',
+    marginRight: 5,
   },
 });
